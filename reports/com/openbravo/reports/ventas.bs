@@ -1,0 +1,26 @@
+report = new com.openbravo.pos.reports.PanelReportBean();
+
+report.setTitleKey("Menu.Ventas");
+report.setReport("/com/openbravo/reports/ventas");
+report.setResourceBundle("com/openbravo/reports/ventas_messages");
+
+report.setSentence("SELECT PRODUCTS.NAME AS NOMBRE,TICKETLINES.TIPO, TICKETLINES.ENVASE, SUM(TICKETLINES.UNITS) AS UNIDADES, SUM(TICKETLINES.PRICEBUY*TICKETLINES.UNITS) AS PRECIOCOMPRA, SUM(TICKETLINES.UNITS * TICKETLINES.PRICE) AS PRECIOVENTA, SUM(TICKETLINES.UNITS * TICKETLINES.PRICE) - SUM(TICKETLINES.UNITS * TICKETLINES.PRICEBUY) AS GANANCIA FROM TICKETLINES, TICKETS, RECEIPTS, PRODUCTS, PAYMENTS WHERE TICKETLINES.PRICE > 0 AND PAYMENTS.RECEIPT = RECEIPTS.ID AND TICKETLINES.PRODUCT = PRODUCTS.ID AND TICKETLINES.TICKET = TICKETS.ID AND TICKETS.ID = RECEIPTS.ID AND ?(QBF_FILTER) GROUP BY PRODUCTS.NAME,TICKETLINES.TIPO, TICKETLINES.ENVASE;");
+report.addParameter("RECEIPTS.DATENEW");
+report.addParameter("RECEIPTS.DATENEW");
+report.addQBFFilter(new com.openbravo.pos.reports.JParamsDatesInterval());
+
+report.addParameter("PRODUCTS.NAME");
+report.addParameter("PRODUCTS.PRICEBUY");
+report.addParameter("PRODUCTS.PRICESELL");
+report.addParameter("PRODUCTS.CATEGORY");
+report.addParameter("PRODUCTS.CODE");
+report.addQBFFilter(new com.openbravo.pos.ticket.ProductFilter());
+
+report.addField("NAME", com.openbravo.data.loader.Datas.STRING);
+report.addField("TIPO", com.openbravo.data.loader.Datas.STRING);
+report.addField("ENVASE", com.openbravo.data.loader.Datas.STRING);
+report.addField("UNIDADES", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("PRECIOCOMPRA", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("PRECIOVENTA", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("GANANCIA", com.openbravo.data.loader.Datas.DOUBLE);
+report;

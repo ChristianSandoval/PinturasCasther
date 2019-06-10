@@ -1,0 +1,19 @@
+report = new com.openbravo.pos.reports.PanelReportBean();
+
+report.setTitleKey("Menu.VentasDetalle2");
+report.setReport("/com/openbravo/reports/ventasdetalle2");
+report.setResourceBundle("com/openbravo/reports/ventasdetalle2_messages");
+
+report.setSentence("SELECT TICKETS.TICKETID AS ID, PRODUCTS.NAME AS NOMBRE, TICKETLINES.TIPO AS TIPO,TICKETLINES.ENVASE AS ENVASE, TICKETLINES.UNITS AS CANTIDAD, PRODUCTS.PRICEBUY AS PRECIOCOMPRA, TICKETLINES.PRICE AS PRECIOVENTA, TICKETLINES.UNITS*TICKETLINES.PRICE AS TOTAL, PEOPLE.NAME AS USUARIO FROM CLOSEDCASH,TICKETLINES, TICKETS, RECEIPTS, PRODUCTS, PEOPLE WHERE CLOSEDCASH.MONEY=RECEIPTS.MONEY AND TICKETS.PERSON=PEOPLE.ID AND TICKETLINES.PRODUCT = PRODUCTS.ID AND TICKETLINES.TICKET = TICKETS.ID AND TICKETS.ID = RECEIPTS.ID AND ?(QBF_FILTER) order by tickets.ticketid");
+report.addParameter("CLOSEDCASH.HOSTSEQUENCE");
+report.addQBFFilter(new com.openbravo.pos.reports.JParamsLocation());
+
+report.addField("ID", com.openbravo.data.loader.Datas.INT);
+report.addField("NOMBRE", com.openbravo.data.loader.Datas.STRING);
+report.addField("TIPO", com.openbravo.data.loader.Datas.STRING);
+report.addField("ENVASE", com.openbravo.data.loader.Datas.STRING);
+report.addField("UNIDADES", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("PRECIOCOMPRA", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("PRECIOVENTA", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("TOTAL", com.openbravo.data.loader.Datas.DOUBLE);
+report;
